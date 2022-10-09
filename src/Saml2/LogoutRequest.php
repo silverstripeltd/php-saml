@@ -143,6 +143,15 @@ class LogoutRequest
     {$sessionIndexStr}
 </samlp:LogoutRequest>
 LOGOUTREQUEST;
+
+            // Sign the request
+            $security = $this->_settings->getSecurityData();
+            $logoutRequest = Utils::addSign(
+                $logoutRequest,
+                $spData['privateKey'],
+                $spData['x509cert'],
+                $security['signatureAlgorithm']
+            );
         } else {
             $decoded = base64_decode($request);
             // We try to inflate
